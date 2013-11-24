@@ -1,0 +1,76 @@
+INTRODUCTION
+   Z80 disassembler in Emacs Lisp
+
+HISTORY
+   I needed to dig through some 1980s vintage Z80 programs to try and
+   track down a problem.  I had the executables but no source.
+
+   I only had access to a Windows NT box which had previously been
+   used for Java development.  I initially planned to write a Z80
+   disassembler in Java but on finding that the box also had Emacs
+   installed I switched to Emacs Lisp.
+
+   I started on 1997-11-17 and stopped on 1998-01-05 when I had enough
+   of a working disassembler for my purposes.  Between those days I
+   worked on it on 9 separate days and for a total of 25 hours and 56
+   minutes i.e. on average almost 3 hours each of the 9 days.
+
+BUILD
+   To speed up disassembly it is best to byte-compile all the files :-
+
+      $ make all
+
+RUN
+   Since it is written in Emacs Lisp it is meant to be used interactively.
+   So, in an Emacs *scratch* buffer do :-
+
+      (setq load-path (cons "." load-path))
+      (load-library "z80-dis")
+
+   to load the code and now to disassemble the first 10 instructions of "sort.bin"
+   first load the file and create a disassembler on it :-
+
+      (setq *d* (z80-dis-from-file "sort.bin"))
+
+   Now you can disasemble any section of it tha you want, the
+   following disassembles the first 10 instructions :-
+
+      (z80-dis *d* 0 10)
+      0000 0e00     LD	C, 0
+      0002 214000   LD	HL, 64
+      0005 46       LD	B, (HL)
+      0006 05       DEC	B
+      0007 23       INC	HL
+      0008 7e       LD	A, (HL)
+      0009 23       INC	HL
+      000a be       CP	(HL)
+      000b 3007     JR	NC, 0014
+      000d 56       LD	D, (HL)
+
+BIBLIOGRAPHY
+   Z80 Assembly Language Programming
+   Lance A. Leventhal
+   Osborne/McGraw-Hill 1979
+
+     Table 3-4 on pages 3-23 to 3-39 contains a summary of the Z80
+     instructions ordered by type i.e. I/O, block transfer, ... etc.
+     The table also listes the order code, number of bytes, clock
+     cycles and affect on flags.
+
+     Table 3-5 on pages 3-40 to 3-42 has a table listing the
+     instructions in numeric order.
+
+     Pages 3-43 to 3-163 contain a detailed description of each
+     instruction ordered alphabetically.
+
+     Pages 9-10 through 9-14 contains an 8-bit bubble sort which
+     includes the hex machine code as well as the assembly code.
+
+   Programming the Z80
+   Rodnay Zaks
+   Sybex 1980
+
+AUTHOR
+   Ninetes Retro <nineties-retro@mail.com>
+
+   1b4cb78552a8a5eac4e6cd7c21cc54cec15e03c8c551167fb3fd4b26081063c9
